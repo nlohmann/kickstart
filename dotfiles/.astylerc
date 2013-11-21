@@ -1,0 +1,31 @@
+# braces begin on the next line
+--style=allman
+
+# indentation is 4 spaces
+--indent=spaces=4
+
+# line comments are indented
+--indent-col1-comments
+
+# pad operators with spaces
+--pad-oper
+
+# add a space between if/for/while and the paren
+--pad-header
+
+# preprocessor defines are indented
+#--indent-preproc-define
+--indent-preprocessor
+
+# pointer and references go to the name
+--align-pointer=name
+--align-reference=name
+
+# add brackets to one line conditionals (if, for, while)
+--add-brackets
+
+# try to shorten lines to 100 characters
+--max-code-length=100
+
+# use \n as line ending
+--lineend=linux
