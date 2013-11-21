@@ -9,7 +9,7 @@ install: homebrew_install haskell_install python_install cask_install
 check: homebrew_check haskell_check cask_check
 update: homebrew_update haskell_update python_update
 packages: install homebrew_packages haskell_packages python_packages cask_packages
-uninstall: haskell_uninstall python_uninstall homebrew_uninstall cask_unstall
+uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall
 
 
 ##########################################################################
