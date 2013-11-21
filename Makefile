@@ -60,8 +60,11 @@ homebrew_packages: homebrew_install
 	brew install colorsvn
 	brew install grc
 	# network
-	####brew install htop
 	brew install nmap
+	## htop
+	brew install htop
+    sudo chown root:wheel /usr/local/Cellar/htop-osx/0.8.2.1/bin/htop
+    sudo chmod u+s /usr/local/Cellar/htop-osx/0.8.2.1/bin/htop
 	# graphics
 	brew install svg2pdf
 	brew install webkit2png
