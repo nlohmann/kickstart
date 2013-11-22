@@ -5,11 +5,11 @@ all:
 	@echo "update"
 	@echo "uninstall"
 
-install: homebrew_install haskell_install python_install cask_install
+install: homebrew_install haskell_install python_install cask_install tex_install
 check: homebrew_check haskell_check cask_check
-update: homebrew_update haskell_update python_update
+update: homebrew_update haskell_update python_update tex_update
 packages: install homebrew_packages haskell_packages python_packages cask_packages
-uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall
+uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall tex_uninstall
 
 
 ##########################################################################
@@ -172,14 +172,40 @@ python_install: homebrew_install
 python_packages: python_install
 	sudo pip install httpie
 	sudo pip install virtualenv
+	# CouchDB
+	sudo pip install couchdb
+	sudo pip install iso8601
+	# -> ~/Library/Application Support/CouchDB/etc/couchdb/local.ini
+	# -> section "[query_servers]"
+	# python = /usr/local/bin/couchpy
 
 python_update: python_install
 	sudo pip install --upgrade setuptools
 	sudo pip install --upgrade pip
-	sudo pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs sudo pip install -U
+	-sudo pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs sudo pip install -U
 
 python_uninstall:
 	sudo pip freeze | xargs sudo pip uninstall -y
 	brew uninstall python
 	brew uninstall python3
-	rm -fcd  python_install
+	rm -f python_install
+
+
+##########################################################################
+# MACTEX
+##########################################################################
+
+tex_install:
+	wget http://mirror.ctan.org/systems/mac/mactex/MacTeX.pkg
+	sudo installer -verbose -pkg MacTeX.pkg -target /
+	rm MacTeX.pkg
+	touch tex_install
+
+tex_update: tex_install
+	sudo tlmgr update --self
+	sudo tlmgr update --all
+
+tex_uninstall:
+	sudo mv /usr/local/texlive ~/.Trash
+	sudo mv /Applications/TeX ~/.Trash
+	rm -f tex_install
