@@ -5,11 +5,19 @@ all:
 	@echo "update"
 	@echo "uninstall"
 
-install: homebrew_install haskell_install python_install cask_install tex_install
+install: homebrew_install haskell_install python_install cask_install tex_install quartz_install
 check: homebrew_check haskell_check cask_check
-update: homebrew_update haskell_update python_update tex_update
+update: osx_update homebrew_update haskell_update python_update tex_update
 packages: install homebrew_packages haskell_packages python_packages cask_packages
-uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall tex_uninstall
+uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall tex_uninstall quartz_uninstall
+
+
+##########################################################################
+# OSX
+##########################################################################
+
+osx_update:
+	sudo softwareupdate --install -all
 
 
 ##########################################################################
@@ -126,6 +134,7 @@ cask_packages: cask_install
 	-brew cask install things
 	-brew cask install transmission
 	-brew cask install virtualbox
+	-brew cask install vlc
 
 cask_check: cask_install
 	brew cask checklinks `brew cask list`
@@ -209,3 +218,23 @@ tex_uninstall:
 	sudo mv /usr/local/texlive ~/.Trash
 	sudo mv /Applications/TeX ~/.Trash
 	rm -f tex_install
+
+
+##########################################################################
+# QUARTZ
+##########################################################################
+
+quartz_install:
+	wget http://xquartz.macosforge.org/downloads/SL/XQuartz-2.7.5.dmg
+	hdiutil mount XQuartz-2.7.5.dmg
+	sudo installer -verbose -pkg /Volumes/XQuartz-2.7.5/XQuartz.pkg -target /
+	hdiutil unmount /Volumes/XQuartz-2.7.5
+	rm XQuartz-2.7.5.dmg
+	touch quartz_install
+
+quartz_uninstall:
+	launchctl unload /Library/LaunchAgents/org.macosforge.xquartz.startx.plist
+	sudo launchctl unload /Library/LaunchDaemons/org.macosforge.xquartz.privileged_startx.plist
+	sudo rm -rf /opt/X11* /Library/Launch*/org.macosforge.xquartz.* /Applications/Utilities/XQuartz.app /etc/*paths.d/*XQuartz
+	sudo pkgutil --forget org.macosforge.xquartz.pkg
+	rm quartz_install
