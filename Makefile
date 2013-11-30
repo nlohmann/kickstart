@@ -55,6 +55,7 @@ homebrew_packages: homebrew_install
 	brew install lcov
 	brew install lua
 	brew install mercurial
+	brew install mtr
 	brew install node
 	brew install pkg-config
 	brew install ruby
