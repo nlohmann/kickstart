@@ -6,3 +6,5 @@ haskell_install
 homebrew_install
 
 python_install
+
+ruby_install

@@ -5,11 +5,11 @@ all:
 	@echo "update"
 	@echo "uninstall"
 
-install: homebrew_install haskell_install python_install cask_install tex_install quartz_install
+install: homebrew_install haskell_install python_install cask_install tex_install quartz_install ruby_install
 check: homebrew_check haskell_check cask_check
-update: osx_update homebrew_update haskell_update python_update tex_update
-packages: install homebrew_packages haskell_packages python_packages cask_packages
-uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall tex_uninstall quartz_uninstall
+update: osx_update homebrew_update haskell_update python_update tex_update ruby_update
+packages: install homebrew_packages haskell_packages python_packages cask_packages ruby_packages
+uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall tex_uninstall quartz_uninstall ruby_uninstall
 
 
 ##########################################################################
@@ -88,7 +88,7 @@ homebrew_check: homebrew_install
 homebrew_update: homebrew_install
 	brew update
 	brew upgrade
-	brew cleanup
+	-brew cleanup
 
 homebrew_uninstall:
 	cd `brew --prefix` ; rm -rf Cellar Library/Homebrew Library/Aliases Library/Formula Library/Contributions .git
@@ -238,4 +238,26 @@ quartz_uninstall:
 	sudo launchctl unload /Library/LaunchDaemons/org.macosforge.xquartz.privileged_startx.plist
 	sudo rm -rf /opt/X11* /Library/Launch*/org.macosforge.xquartz.* /Applications/Utilities/XQuartz.app /etc/*paths.d/*XQuartz
 	sudo pkgutil --forget org.macosforge.xquartz.pkg
-	rm quartz_install
+	rm -f quartz_install
+
+
+##########################################################################
+# RUBY
+##########################################################################
+
+ruby_install:
+	touch ruby_install
+
+ruby_packages: ruby_install
+	# blog
+	sudo gem install jekyll
+	sudo gem install kramdown
+
+ruby_update: ruby_install
+	sudo gem update --system
+	sudo gem update `gem list | cut -d ' ' -f 1`
+	sudo gem cleanup
+
+ruby_uninstall:
+	for i in `gem list --no-versions`; do sudo gem uninstall -aIx $$i; done
+	rm -f ruby_install
