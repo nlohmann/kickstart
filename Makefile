@@ -17,7 +17,7 @@ uninstall: haskell_uninstall python_uninstall cask_uninstall homebrew_uninstall 
 ##########################################################################
 
 osx_update:
-	sudo softwareupdate --install -all
+	sudo softwareupdate --verbose --install --all
 
 
 ##########################################################################
