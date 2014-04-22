@@ -72,8 +72,8 @@ homebrew_packages: homebrew_install
 	brew install nmap
 	## htop
 	brew install htop
-	sudo chown root:wheel /usr/local/Cellar/htop-osx/0.8.2.1/bin/htop
-	sudo chmod u+s /usr/local/Cellar/htop-osx/0.8.2.1/bin/htop
+	sudo chown root:wheel /usr/local/Cellar/htop-osx/*/bin/htop
+	sudo chmod u+s /usr/local/Cellar/htop-osx/*/bin/htop
 	# graphics
 	brew install svg2pdf
 	brew install webkit2png
@@ -81,6 +81,8 @@ homebrew_packages: homebrew_install
 	# misc
 	brew install sl
 	brew install tree
+	# backup
+	brew install duplicity
 
 homebrew_check: homebrew_install
 	-brew doctor
